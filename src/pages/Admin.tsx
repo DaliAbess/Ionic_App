@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonInput, IonItem, IonLabel, IonSelect, IonSelectOption } from '@ionic/react';
+import { IonIcon,IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonInput, IonItem, IonLabel, IonSelect, IonSelectOption } from '@ionic/react';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useHistory } from 'react-router-dom';
+import { bookOutline, homeOutline ,arrowBackOutline , settingsOutline } from 'ionicons/icons';
 
 const Admin: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('disponible');
   const [picture, setPicture] = useState<File | null>(null);
+  const history = useHistory();
 
   const firestore = getFirestore();
   const storage = getStorage(); // Firebase Storage instance
@@ -54,7 +57,16 @@ const Admin: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Admin - Add Book</IonTitle>
+        <IonButton slot="start" fill="clear" onClick={() =>  history.push ('/home')}>
+    {/* Home icon */}
+    <IonIcon icon={homeOutline} />
+  </IonButton>
+  <IonButton slot="start" fill="clear" onClick={() =>  history.push ('/books')}>
+    {/* Home icon */}
+    <IonIcon icon={arrowBackOutline } />
+  </IonButton>
+  <IonIcon icon={settingsOutline} style={{ marginRight: '8px' }} /> Add book 
+          
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

@@ -3,15 +3,16 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, 
 import { useHistory } from 'react-router-dom';
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 
-const Home: React.FC = () => {
+const Home: React.FC = (isAdmin) => {
   const history = useHistory();
   const auth = getAuth();
   const [user, setUser] = useState<any>(null);  // Store the user object when logged in
-
+  const admin= isAdmin ;
   // Listen to Firebase auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);  // Set user state if logged in, null otherwise
+      setUser(user); // Set user state if logged in, null otherwise
+      
     });
 
     // Cleanup subscription on unmount
@@ -33,10 +34,11 @@ const Home: React.FC = () => {
       {/* Header with Buttons */}
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Home</IonTitle>
+          <IonTitle style={{ gap: '0.9rem' }}>Home</IonTitle>
+
           {user ?  (  // If the user is logged in, show the Logout button
           <>
-            <IonButton fill="outline"slot="end" color="danger" onClick={handleLogout}>
+            <IonButton fill="outline"  style={{ marginLeft: '1rem' }} color="danger" onClick={handleLogout}>
               Logout
             </IonButton>
             <IonButton fill="outline" slot="end" onClick={() => history.push('/profile')}>
@@ -45,9 +47,7 @@ const Home: React.FC = () => {
           <IonButton fill="outline" slot="end" onClick={() => history.push('/books')}>
             Books
           </IonButton>
-          <IonButton fill="outline" slot="end" onClick={() => history.push('/admin')}>
-            Admin
-          </IonButton>
+
 
           </>
           ) : (  // If the user is not logged in, show Login and Register buttons
