@@ -36,18 +36,25 @@ const Home: React.FC = () => {
           <IonTitle>Home</IonTitle>
           {user ?  (  // If the user is logged in, show the Logout button
           <>
-            <IonButton slot="end" color="danger" onClick={handleLogout}>
+            <IonButton fill="outline"slot="end" color="danger" onClick={handleLogout}>
               Logout
             </IonButton>
-            <IonButton slot="end" onClick={() => history.push('/profile')}>
+            <IonButton fill="outline" slot="end" onClick={() => history.push('/profile')}>
             Profile
           </IonButton>
+          <IonButton fill="outline" slot="end" onClick={() => history.push('/books')}>
+            Books
+          </IonButton>
+          <IonButton fill="outline" slot="end" onClick={() => history.push('/admin')}>
+            Admin
+          </IonButton>
+
           </>
           ) : (  // If the user is not logged in, show Login and Register buttons
             <>
        
-              <IonButton slot="end" onClick={() => window.location.href = '/login'}>Login</IonButton>
-          <IonButton slot="end" onClick={() => window.location.href = '/register'}>Register</IonButton>
+              <IonButton fill="outline" slot="end" onClick={() => window.location.href = '/login'}>Login</IonButton>
+          <IonButton fill="outline" slot="end" onClick={() => window.location.href = '/register'}>Register</IonButton>
            
             </>
           )}
@@ -60,15 +67,15 @@ const Home: React.FC = () => {
           <IonRow className="ion-justify-content-center">
             <IonCol size="12" sizeMd="6">
               {/* Image in the center */}
-              <IonImg src="src/assets/img/ionic.png" alt="Image" />
+              <IonImg src="src/assets/img/1.png" alt="Image" />
             </IonCol>
           </IonRow>
 
           <IonRow className="ion-justify-content-center ion-padding">
             <IonCol size="12" sizeMd="6">
               {/* Text below the image */}
-              <h2>Welcome to our Application</h2>
-              <p>Manage your tasks, track progress, and much more!</p>
+              <h2>Welcome to E-Library  </h2>
+              <p>Manage your Reservation , Search books, and much more!</p>
             </IonCol>
           </IonRow>
         </IonGrid>

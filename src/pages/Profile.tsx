@@ -21,7 +21,7 @@ const Profile: React.FC = () => {
               {user ? (
                 <div>
                   <p>Email: {user.email}</p>
-                  <p>Display Name: {user.displayName}</p>
+                  <p>Display Name: {user.email}</p>
                 </div>
               ) : (
                 <p>No user information available.</p>

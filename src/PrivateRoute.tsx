@@ -13,7 +13,7 @@ const PrivateRoute: React.FC<any> = ({ component: Component, ...rest }) => {
         user ? (
           <Component {...props} />  // If user is authenticated, render the component
         ) : (
-          <Redirect to="/login" />  // If not authenticated, redirect to login
+          <Redirect to="/home" />  // If not authenticated, redirect to login
         )
       }
     />

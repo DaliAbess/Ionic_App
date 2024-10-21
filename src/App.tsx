@@ -5,6 +5,9 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import Admin from './pages/Admin';
+import Books from './pages/Books';
+
 import PrivateRoute from './PrivateRoute'; 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -55,7 +58,9 @@ const App: React.FC = () => (
           <Redirect to="/home" />
         </Route>
         <PrivateRoute path="/profile" component={Profile} />
-
+        <PrivateRoute path="/admin" component={Admin} />
+        
+        <PrivateRoute path="/books" component={Books} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
