@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 const Profile: React.FC = (props) => {
   const auth = getAuth();
   const user = auth.currentUser;  // Get current authenticated user
-  const {isAdmin}=props ; 
+  const {isAdmin} = props ; 
   const history = useHistory();
 
   return (
