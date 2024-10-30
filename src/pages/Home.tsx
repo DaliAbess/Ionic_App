@@ -6,7 +6,7 @@ import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 const Home: React.FC = (isAdmin) => {
   const history = useHistory();
   const auth = getAuth();
-  const [user, setUser] = useState<any>(null);  // Store the user object when logged in
+  const [user, setUser] = useState<any>(null);
   const admin= isAdmin ;
   // Listen to Firebase auth state changes
   useEffect(() => {
@@ -38,7 +38,7 @@ const Home: React.FC = (isAdmin) => {
 
           {user ?  (  // If the user is logged in, show the Logout button
           <>
-            <IonButton fill="outline"  style={{ marginLeft: '1rem' }} color="danger" onClick={handleLogout}>
+            <IonButton fill="outline" slot="end" style={{ marginLeft: '1rem' }} color="danger" onClick={handleLogout}>
               Logout
             </IonButton>
             <IonButton fill="outline" slot="end" onClick={() => history.push('/profile')}>

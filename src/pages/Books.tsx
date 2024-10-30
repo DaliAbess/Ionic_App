@@ -132,7 +132,7 @@ const Books: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
           </IonTitle>
           {user ? (
             <>
-              <IonButton fill="outline"  color="danger" onClick={handleLogout}>
+              <IonButton fill="outline" slot="end" color="danger" onClick={handleLogout}>
                 Logout
               </IonButton>
               <IonButton fill="outline" slot="end" onClick={() => history.push('/profile')}>
@@ -152,20 +152,26 @@ const Books: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
           )}
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <IonList>
+      <IonContent >
+        <IonList style={{display: 'flex', flexDirection: 'row' ,justifyContent: 'center', flexWrap: 'wrap'}}>
           {books.map((book: Book) => (
-            <IonCard key={book.id} style={{ margin: '10px', boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)', borderRadius: '10px' }}>
+            <IonCard key={book.id} style={{ width: '40%', height: 'auto' ,margin: '10px', boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)', borderRadius: '10px' }}>
               <IonCardHeader>
                 <IonCardTitle style={{ textAlign: 'center' }}>{book.title}</IonCardTitle>
                 <IonCardSubtitle>{book.status === 'disponible' ? 'Available' : 'Reserved'}</IonCardSubtitle>
               </IonCardHeader>
               <IonImg
-                style={{ width: '80%', height: 'auto', margin: '0 auto', display: 'block' }} // Adjusting image size to 80%
+                style={{ width: '50%', height: 'auto', margin: '0 auto', display: 'block' }} // Adjusting image size to 80%
                 src={book.picture}
                 alt={book.title}
               />
-              <IonCardContent>
+              <IonCardContent  >
+              <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '2%',
+    }}>
                 {book.status === 'disponible' && (
                   <IonButton  size="small" onClick={() => handleReserve(book.id)}>Reserve</IonButton>
                 )}
@@ -175,13 +181,14 @@ const Books: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
                 {book.status === 'reservé' && book.reservedBy !== user?.email && (
                   <IonLabel>Reserved</IonLabel>
                 )}
-                <IonButton  color="primary" size="small" onClick={() => { setSelectedBook(book); setShowModal(true); }}>Show Details</IonButton>
+                <IonButton  color="primary" size="small" onClick={() => { setSelectedBook(book); setShowModal(true); }}>Details</IonButton>
                 {isAdmin && (
                   <>
                     <IonButton  size="small" onClick={() => { setSelectedBook(book); setShowUpdateModal(true); }}>Update</IonButton>
                     <IonButton  color="danger" size="small" onClick={() => { setBookToDelete(book.id); setShowDeleteAlert(true); }}>Delete</IonButton>
                   </>
                 )}
+</div>
               </IonCardContent>
             </IonCard>
           ))}
@@ -189,58 +196,87 @@ const Books: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
 
         {/* Modal for updating book */}
         <IonModal isOpen={showUpdateModal} onDidDismiss={() => setShowUpdateModal(false)}>
-          <IonHeader>
-            <IonToolbar>
-              <IonTitle>Update Book</IonTitle>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent>
-            <IonItem>
-              <IonLabel position="floating" style={{ marginBottom: '0.9rem' }}>Title</IonLabel>
-              <IonInput
-                value={selectedBook?.title}
-                onIonChange={(e) => setSelectedBook({ ...selectedBook!, title: e.detail.value! })}
-              />
-            </IonItem>
-            <IonItem>
-              <IonLabel position="floating" style={{ marginBottom: '0.9rem' }}>Description</IonLabel>
-              <IonInput
-                value={selectedBook?.description}
-                onIonChange={(e) => setSelectedBook({ ...selectedBook!, description: e.detail.value! })}
-              />
-            </IonItem>
+  <IonHeader>
+    <IonToolbar>
+      <IonTitle>Update Book</IonTitle>
+    </IonToolbar>
+  </IonHeader>
+  
+  <IonContent className="ion-padding" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+  <IonItem lines="none" style={{ margin: '0 auto' ,width: '40%', marginBottom: '1rem' }}>
+    <IonLabel position="floating" style={{ color: '#666', fontSize: '1rem' }}>Title</IonLabel>
+    <IonInput
+      value={selectedBook?.title}
+      onIonChange={(e) => setSelectedBook({ ...selectedBook!, title: e.detail.value! })}
+      style={{ marginTop: '0.5rem' }}
+    />
+  </IonItem>
+  
+  <IonItem lines="none" style={{margin: '0 auto', width: '40%', marginBottom: '1rem' }}>
+    <IonLabel position="floating" style={{ color: '#666', fontSize: '1rem' }}>Description</IonLabel>
+    <IonInput
+      value={selectedBook?.description}
+      onIonChange={(e) => setSelectedBook({ ...selectedBook!, description: e.detail.value! })}
+      style={{ marginTop: '0.5rem' }}
+    />
+  </IonItem>
+  
+  <div style={{ margin: '0 auto' ,display: 'flex', flexDirection: 'row' ,justifyContent: 'center', width: '30%', marginTop: '1.5rem' }}>
+    <IonButton onClick={handleUpdate} style={{ flex: 1, marginRight: '0.5rem', borderRadius: '20px' }}>
+      Update
+    </IonButton>
+    <IonButton color="medium" onClick={() => setShowUpdateModal(false)} style={{ flex: 1, borderRadius: '20px' }}>
+      Cancel
+    </IonButton>
+  </div>
+</IonContent>
 
-            <IonButton expand="full" onClick={handleUpdate}>Update Book</IonButton>
-            <IonButton expand="full" color="medium" onClick={() => setShowUpdateModal(false)}>Cancel</IonButton>
-          </IonContent>
-        </IonModal>
+</IonModal>
+
 
         {/* Modal for showing book */}
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
-          <IonHeader>
-            <IonToolbar>
-              <IonTitle>Book Details</IonTitle>
-              <IonButton slot="end" onClick={() => setShowModal(false)}>Close</IonButton>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent>
-            {selectedBook && (
-              <>
-                <IonImg
-                  style={{ width: '80%', height: 'auto', margin: '0 auto', display: 'block' }} // Adjusting image size to 80%
-                  src={selectedBook.picture}
-                  alt={selectedBook.title}
-                />
-                <IonText>
-                  <h2 style={{ textAlign: 'center' }}>{selectedBook.title}</h2> {/* Centering the title */}
-                  <p>{selectedBook.description}</p>
-                  <p>Status: {selectedBook.status === 'disponible' ? 'Available' : 'Reserved'}</p>
+  <IonHeader>
+    <IonToolbar>
+      <IonTitle>Book Details</IonTitle>
+      <IonButton slot="end" fill="clear" onClick={() => setShowModal(false)} style={{ color: '#f56' }}>
+        Close
+      </IonButton>
+    </IonToolbar>
+  </IonHeader>
+  
+  <IonContent className="ion-padding">
+    {selectedBook && (
+      <>
+        <IonImg
+          style={{
+            width: '20%',
+            height: 'auto',
+            margin: '1.5rem auto',
+            display: 'block',
+            borderRadius: '15px', // Rounded corners
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)' // Light shadow for depth
+          }}
+          src={selectedBook.picture}
+          alt={selectedBook.title}
+        />
+        
+        <IonText>
+          <h2 style={{ textAlign: 'center', fontSize: '1.5rem', fontWeight: 'bold', marginTop: '0.5rem' }}>
+            {selectedBook.title}
+          </h2>
+          <p style={{ textAlign: 'center', color: '#666', fontSize: '1.1rem', lineHeight: '1.6' }}>
+            {selectedBook.description}
+          </p>
+          <p style={{ textAlign: 'center', fontWeight: '500', color: selectedBook.status === 'disponible' ? 'green' : 'red' }}>
+            Status: {selectedBook.status === 'disponible' ? 'Available' : 'Reserved'}
+          </p>
+        </IonText>
+      </>
+    )}
+  </IonContent>
+</IonModal>
 
-                </IonText>
-              </>
-            )}
-          </IonContent>
-        </IonModal>
 
         {/* Delete alert */}
         <IonAlert
